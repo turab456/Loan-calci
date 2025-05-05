@@ -66,60 +66,60 @@ function DrawerAppBar(props) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar component="nav">
-      <Toolbar>
-  <IconButton
-    color="inherit"
-    aria-label="open drawer"
-    edge="start"
-    onClick={handleDrawerToggle}
-    sx={{ mr: 2, display: { sm: "none" } }}
-  >
-    <MenuIcon />
-  </IconButton>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
 
-  <Typography
-    variant="h6"
-    component="div"
-    sx={{ flexGrow: 1, fontSize: "1.4rem" }}
-  >
-    Loan Calculator
-  </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, fontSize: "1.4rem" }}
+          >
+            Loan Calculator
+          </Typography>
 
-  {/* Desktop nav buttons */}
-  <Box
-    sx={{
-      display: { xs: "none", sm: "flex" },
-      alignItems: "center",
-      paddingY: 3,
-    }}
-  >
-    {navItems.map((item) => (
-      <Button
-        key={item.label}
-        component={Link}
-        to={item.path}
-        sx={{
-          color: "#fff",
-          fontSize: "1rem",
-          textTransform: "none",
-          borderRadius: "10px",
-          marginRight: 1,
-          paddingX: 5,
-          "&:hover": {
-            backgroundColor: "#1565c0",
-          },
-        }}
-      >
-        {item.label}
-      </Button>
-    ))}
-  </Box>
+          {/* Desktop nav buttons */}
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              // alignItems: "center",
+              paddingY: 1,
+            }}
+          >
+            {navItems.map((item) => (
+              <Button
+                key={item.label}
+                component={Link}
+                to={item.path}
+                sx={{
+                  color: "#fff",
+                  fontSize: "1rem",
+                  textTransform: "none",
+                  borderRadius: "10px",
+                  marginRight: 1,
+                  paddingX: 3,
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </Box>
 
-  {/* Toggle switch visible on all screen sizes */}
-  <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
-    <Switch checked={toggle} onChange={handleToggleChange} />
-  </Box>
-</Toolbar>
+          {/* Toggle switch visible on all screen sizes */}
+          <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
+            <Switch checked={toggle} onChange={handleToggleChange} />
+          </Box>
+        </Toolbar>
 
       </AppBar>
 
