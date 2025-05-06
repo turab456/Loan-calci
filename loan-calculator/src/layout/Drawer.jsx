@@ -21,7 +21,7 @@ const drawerWidth = 240;
 const navItems = [
   { label: "HOME", path: "/" },
   { label: "EXCHANGE RATES (LIVE)", path: "/exchange-rates" },
-  { label: "ABOUT", path: "/about" },
+  // { label: "ABOUT", path: "/about" },
   { label: "ERROR PAGE", path: "/error_page" },
 ];
 function DrawerAppBar(props) {

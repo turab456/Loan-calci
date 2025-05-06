@@ -1,13 +1,11 @@
 import { lazy, Suspense, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import {useLocation } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
 import ResponsiveDrawer from "./layout/Drawer";
 import Loader from "./components/Loader";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ExchangeRates from "./pages/ExchangeRates";
+import AppRoutes from "./routes/AppRoutes";
 
-const Home = lazy(() => import("./pages/Home"));
-const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const lightTheme = createTheme({
   palette: {
@@ -39,12 +37,7 @@ function App() {
       )}
       <Box sx={{ mt: !isErrorPage ? 8 : 0, p: 2 }}>
         <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/exchange-rates" element={<ExchangeRates />} />
-            {/* <Route path="/about" element={<About />} /> */}
-            <Route path="/error_page" element={<ErrorPage />} />
-          </Routes>
+         <AppRoutes/>
         </Suspense>
       </Box>
     </ThemeProvider>
