@@ -22,35 +22,22 @@ const navItems = [
   { label: "HOME", path: "/" },
   { label: "EXCHANGE RATES (LIVE)", path: "/exchange-rates" },
   { label: "ABOUT", path: "/about" },
-  { label: "ERROR PAGE", path: "/error" },
+  { label: "ERROR PAGE", path: "/error_page" },
 ];
 function DrawerAppBar(props) {
-  const { window } = props;
+  const { window, onToggleChange, toggle } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [toggle, setToggle] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleToggleChange = () => {
-    setToggle(!toggle);
-  };
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      {/* <Typography variant="h6" sx={{ my: 2 }}>
-        Loan Calculator
-      </Typography> */}
-      {/* <Divider /> */}
       <List>
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
-            <ListItemButton
-              component={Link}
-              to={item.path}
-            //   sx={{ textAlign: "center" }}
-            >
+            <ListItemButton component={Link} to={item.path}>
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
@@ -85,11 +72,9 @@ function DrawerAppBar(props) {
             Loan Calculator
           </Typography>
 
-          {/* Desktop nav buttons */}
           <Box
             sx={{
               display: { xs: "none", sm: "flex" },
-              // alignItems: "center",
               paddingY: 1,
             }}
           >
@@ -106,7 +91,8 @@ function DrawerAppBar(props) {
                   marginRight: 1,
                   paddingX: 3,
                   "&:hover": {
-                    backgroundColor: "#1565c0",
+                    backgroundColor:
+                      item.label === "HOME" ? "#1565c0" : "transparent",
                   },
                 }}
               >
@@ -115,12 +101,10 @@ function DrawerAppBar(props) {
             ))}
           </Box>
 
-          {/* Toggle switch visible on all screen sizes */}
           <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
-            <Switch checked={toggle} onChange={handleToggleChange} />
+            <Switch checked={toggle} onChange={onToggleChange} />
           </Box>
         </Toolbar>
-
       </AppBar>
 
       <Box component="nav">

@@ -1,39 +1,28 @@
-import * as React from 'react';
+import * as React from "react";
 import {
-  Box, Typography, Paper, Table, TableBody,
-  TableCell, TableContainer, TableHead, TablePagination, TableRow
-} from '@mui/material';
+  Box,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@mui/material";
 
-const columns = [
-  { id: 'month', label: 'Month', minWidth: 100 },
-  {
-    id: 'principal',
-    label: 'Principal',
-    minWidth: 100,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'interest',
-    label: 'Interest',
-    minWidth: 100,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'balance',
-    label: 'Remaining Balance',
-    minWidth: 120,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function generateAmortizationSchedule(principal, annualRate, termInYears) {
+function generateAmortizationSchedule(
+  principal,
+  annualRate,
+  termInYears,
+  conversionRate
+) {
   const monthlyRate = annualRate / 12 / 100;
   const totalMonths = termInYears * 12;
-  const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) /
-              (Math.pow(1 + monthlyRate, totalMonths) - 1);
+  const emi =
+    (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
+    (Math.pow(1 + monthlyRate, totalMonths) - 1);
 
   let balance = principal;
   const schedule = [];
@@ -45,21 +34,55 @@ function generateAmortizationSchedule(principal, annualRate, termInYears) {
 
     schedule.push({
       month,
-      principal: principalPayment,
-      interest,
-      balance: balance < 0 ? 0 : balance,
+      principal: principalPayment * conversionRate,
+      interest: interest * conversionRate,
+      balance: (balance < 0 ? 0 : balance) * conversionRate,
     });
   }
 
   return schedule;
 }
 
-export default function StickyHeadTable({ principal, annualRate, termInYears }) {
+export default function AmortizationEMi({
+  principal,
+  annualRate,
+  termInYears,
+  currencySymbol,
+  conversionRate,
+}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const amortizationRows = generateAmortizationSchedule(principal, annualRate, termInYears);
-
+  const amortizationRows = generateAmortizationSchedule(
+    principal,
+    annualRate,
+    termInYears,
+    conversionRate
+  );
+  const columns = [
+    { id: "month", label: "Month", minWidth: 100 },
+    {
+      id: "principal",
+      label: "Principal",
+      minWidth: 100,
+      align: "right",
+      format: (value) => value.toFixed(2),
+    },
+    {
+      id: "interest",
+      label: "Interest",
+      minWidth: 100,
+      align: "right",
+      format: (value) => value.toFixed(2),
+    },
+    {
+      id: "balance",
+      label: "Remaining Balance",
+      minWidth: 120,
+      align: "right",
+      format: (value) => value.toFixed(2),
+    },
+  ];
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -70,10 +93,10 @@ export default function StickyHeadTable({ principal, annualRate, termInYears }) 
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Box sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 }, pt: 1 }}>
-        <Typography variant='h6'>
-          Amortization Schedule ({termInYears} Years)
+        <Typography variant="h6">
+          Amortization Schedule ({currencySymbol})
         </Typography>
       </Box>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -100,7 +123,10 @@ export default function StickyHeadTable({ principal, annualRate, termInYears }) 
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format ? column.format(value) : value}
+                        {column.id === "month"
+                          ? value 
+                          : (column.format ? column.format(value) : value) +" "+
+                            currencySymbol}
                       </TableCell>
                     );
                   })}

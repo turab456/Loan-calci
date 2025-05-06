@@ -1,6 +1,6 @@
 import { Box, TextField, Typography, Button, Grid } from "@mui/material";
 import React, { useState } from "react";
-import StickyHeadTable from '../components/Table';
+import AmortizationEMi from "../components/AmortizationEMi";
 import Calculation from "../components/Calculation";
 
 const Home = () => {
@@ -8,9 +8,9 @@ const Home = () => {
   const [interestRate, setInterestRate] = useState(8.5);
   const [term, setTerm] = useState(5);
   const [triggerCalc, setTriggerCalc] = useState(false);
-
+ const [currency, setCurrency] = useState("USD");
   const handleCalculate = () => {
-    setTriggerCalc(true); // Triggers Calculation rerender
+    setTriggerCalc(true); 
   };
 
   return (
@@ -82,21 +82,32 @@ const Home = () => {
       </Button>
 
       {triggerCalc && (
-        <Box sx={{ marginTop: 4, display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box
+          sx={{
+            marginTop: 4,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
           <div>
             <Calculation
               principal={loanAmount}
               annualRate={interestRate}
               termInYears={term}
+              currency={currency} 
+              setCurrency={setCurrency}
+              setTriggerCalc={setTriggerCalc}
             />
           </div>
           <div>
-            <StickyHeadTable
+            <AmortizationEMi
               principal={loanAmount}
               annualRate={interestRate}
               termInYears={term}
+              currencySymbol={currency}
+              conversionRate={1}
             />
-
           </div>
         </Box>
       )}
