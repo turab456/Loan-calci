@@ -13,7 +13,7 @@ const ErrorPage = () => {
       }}
     >
       <div>
-        <Typography variant="h4">
+        <Typography variant="h4" sx={{textAlign:'center'}}>
           Something went wrong in the application.
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "center" }}>

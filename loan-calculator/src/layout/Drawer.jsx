@@ -15,7 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 const navItems = [
@@ -27,6 +27,7 @@ const navItems = [
 function DrawerAppBar(props) {
   const { window, onToggleChange, toggle } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -35,13 +36,38 @@ function DrawerAppBar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component={Link} to={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <ListItem key={item.label} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                sx={{
+                  backgroundColor: isActive ? "primary.main" : "transparent",
+                  px: 2,
+                  py: 1,
+                  borderRadius: 1,
+                  "&:hover": {
+                    backgroundColor: isActive
+                      ? "primary.dark"
+                      : "rgba(0, 0, 0, 0.04)",
+                  },
+                }}
+              >
+                <ListItemText
+                  secondary={
+                    item.label.charAt(0).toUpperCase() +
+                    item.label.slice(1).toLowerCase()
+                  }
+                  secondaryTypographyProps={{
+                    sx: { color: isActive ? "white" : "black" },
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </Box>
   );
