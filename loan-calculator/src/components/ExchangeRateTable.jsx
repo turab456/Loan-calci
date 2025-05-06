@@ -1,4 +1,3 @@
-// components/CurrencyTable.js
 import React from 'react';
 import {
   Table, TableBody, TableCell, TableContainer,
